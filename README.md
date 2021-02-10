@@ -16,7 +16,7 @@
 ### Association
 
 - has_many :products
-- has/many :records
+- has_many :records
 
 ## products テーブル
 
@@ -45,7 +45,7 @@
 | delivery_source_area_id | integer    | null: false                    |
 | municipality            | string     | null: false                    |
 | house_number            | string     | null: false                    |
-| building                | string     | null: false                    |
+| building                | string     |                                |
 | phone_number            | string     | null: false                    |
 | user                    | references | null: false, foreign_key: true |
 

@@ -1,24 +1,67 @@
-# README
+# テーブル設計
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## users テーブル
 
-Things you may want to cover:
+| Column      | Type    | Options     |
+| ----------- | ------- | ----------- | 
+| nickname    | string  | null: false |
+| email       | string  | null: false |
+| password    | string  | null: false |
+| first_name  | string  | null: false |
+| last_name   | string  | null: false |
+| birth_year  | integer | null: false |
+| birth_month | integer | null: false |
+| birth_day   | integer | null: false |
 
-* Ruby version
+### Association
 
-* System dependencies
+- has_many :products
+- has/many :records
 
-* Configuration
+## products テーブル
 
-* Database creation
+| Column               | Type       | Option                         |
+| -------------------- | ---------- | ------------------------------ |
+| name                 | string     | null: false                    |
+| explanation          | text       | null: false                    |
+| category             | string     | null: false                    |
+| state                | string     | null: false                    |
+| delivery_fee         | string     | null: false                    |
+| delivery_source_area | string     | null: false                    |
+| days_to_delivery     | string     | null: false                    |
+| price                | integer    | null: false                    |
+| user_id              | references | null: false, foreign_key: true |
 
-* Database initialization
+### Association
 
-* How to run the test suite
+- has_one :record
+- belongs_to :user
 
-* Services (job queues, cache servers, search engines, etc.)
+## addresses テーブル
 
-* Deployment instructions
+| Column       | Type       | Option                         |
+| ------------ | ---------- | ------------------------------ |
+| postal_code  | integer    | null: false                    |
+| prefecture   | string     | null: false                    |
+| municipality | string     | null: false                    |
+| house_number | integer    | null: false                    |
+| phone_number | integer    | null: false                    |
+| user_id      | references | null: false, foreign_key: true |
 
-* ...
+### Association
+
+- belongs_to :record
+
+## records テーブル
+
+| Column     | Type       | Option                         |
+| ---------- | ---------- | ------------------------------ |
+| product_id | references | null: false, foreign_key: true |
+| user_id    | references | null: false, foreign_key: true |
+| address_id | references | null: false, foreign_key: true |
+
+### Association
+
+- belongs_to :product
+- belongs_to :user
+- has_one :address

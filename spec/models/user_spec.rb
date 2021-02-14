@@ -20,6 +20,10 @@ RSpec.describe User, type: :model do
         @user.password_confirmation ="12345a"
         expect(@user).to be_valid
       end
+      it 'passwordとpassword_confirmationは同じ値なら登録できる' do
+        @user.password = @user.password_confirmation
+        expect(@user).to be_valid
+      end
       it 'last_nameが全角かな/カナ、漢字であれば登録できる' do
         @user.last_name = "石川"
         expect(@user).to be_valid
@@ -71,8 +75,18 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors.full_messages).to include('Password is too short (minimum is 6 characters)')
       end
-      it 'passwordは半角英数字混合でないと登録できない' do
+      it 'passwordは半角英字のみでは登録できない' do
         @user.password = "aaaaaa"
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password 半角英数字混合で入力してください")
+      end
+      it 'passwordは半角数字のみでは登録できない' do
+        @user.password = "111111"
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password 半角英数字混合で入力してください")
+      end
+      it 'passwordは全角のみでは登録できない' do
+        @user.password = "AAA１１１"
         @user.valid?
         expect(@user.errors.full_messages).to include("Password 半角英数字混合で入力してください")
       end
@@ -80,6 +94,9 @@ RSpec.describe User, type: :model do
         @user.password_confirmation = ''
         @user.valid?
         expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
+      end
+      it 'passwordとpassword_confirmationは同じ値でないと登録できない' do
+        
       end
       it 'last_nameが空だと登録できない' do
         @user.last_name = ''
@@ -106,8 +123,13 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors.full_messages).to include("Last frigana can't be blank")
       end
-      it 'last_friganaがカタカナでないと登録できない' do
+      it 'last_friganaが半角文字だと登録できない' do
         @user.last_frigana = "aaaaa"
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Last frigana 全角カタカナのみで入力してください")
+      end
+      it 'last_friganaがカタカナ以外の全角文字でも登録できない' do
+        @user.last_frigana = "あ阿"
         @user.valid?
         expect(@user.errors.full_messages).to include("Last frigana 全角カタカナのみで入力してください")
       end
@@ -116,8 +138,13 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors.full_messages).to include("First frigana can't be blank")
       end
-      it 'first_friganaがカタカナでないと登録できない' do
+      it 'first_friganaが半角文字だと登録できない' do
         @user.first_frigana = "bbbbb"
+        @user.valid?
+        expect(@user.errors.full_messages).to include("First frigana 全角カタカナのみで入力してください")
+      end
+      it 'first_friganaがカタカナ以外の全角文字でも登録できない' do
+        @user.first_frigana = "い井"
         @user.valid?
         expect(@user.errors.full_messages).to include("First frigana 全角カタカナのみで入力してください")
       end

@@ -19,7 +19,7 @@ class Item < ApplicationRecord
       validates :delivery_source_area_id
       validates :days_to_delivery_id
     end
-    validates :price, format: { with: /\A[0-9]+\z/, message: '半角数字のみで入力してください' },
+    validates :price, format: { with: /\A[0-9]\d+\z/, message: '半角数字のみで入力してください' },
                       numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999, message: '範囲内の金額を入力してください' }
   end
 end

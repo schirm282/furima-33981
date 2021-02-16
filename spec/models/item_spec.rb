@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Item, type: :model do
   before do
     @item = FactoryBot.build(:item)
+    @item.image = fixture_file_upload("test/fixtures/test_image.jpg")
   end
 
   describe '商品出品機能' do
@@ -11,11 +12,11 @@ RSpec.describe Item, type: :model do
         expect(@item).to be_valid
       end
       it 'priceが半角数字であれば出品ができる' do
-        @item.price = '11111'
+        @item.price = 11111
         expect(@item).to be_valid
       end
       it 'priceが指定した金額の範囲内なら出品ができる' do
-        @item.price = '300'
+        @item.price = 300
         expect(@item).to be_valid
       end
     end
@@ -31,43 +32,64 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include("Explanation can't be blank")
       end
       it 'imageが何も指定されてないと、出品ができない' do
+        @item.image = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Image can't be blank")
       end
       it 'category_idが何も指定されてないと、出品ができない' do
-        @item.category_id = '1'
+        @item.category_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include('Category must be other than 1')
+        expect(@item.errors.full_messages).to include("Category must be other than 1")
       end
       it 'state_idが何も指定されてないと、出品ができない' do
-        @item.state_id = '1'
+        @item.state_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include('State must be other than 1')
+        expect(@item.errors.full_messages).to include("State must be other than 1")
       end
       it 'delivery_fee_idが何も指定されてないと、出品ができない' do
-        @item.delivery_fee_id = '1'
+        @item.delivery_fee_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include('Delivery fee must be other than 1')
+        expect(@item.errors.full_messages).to include("Delivery fee must be other than 1")
       end
       it 'delivery_source_area_idが何も指定されてないと、出品ができない' do
-        @item.delivery_source_area_id = '1'
+        @item.delivery_source_area_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include('Delivery source area must be other than 1')
+        expect(@item.errors.full_messages).to include("Delivery source area must be other than 1")
       end
       it 'days_to_delivery_idが何も指定されてないと、出品ができない' do
-        @item.days_to_delivery_id = '1'
+        @item.days_to_delivery_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include('Days to delivery must be other than 1')
+        expect(@item.errors.full_messages).to include("Days to delivery must be other than 1")
       end
       it 'priceが空の場合、出品ができない' do
         @item.price = ''
         @item.valid?
         expect(@item.errors.full_messages).to include("Price can't be blank")
       end
-      it 'priceが半角数字以外だと、出品ができない' do
-      end
-      it 'priceが指定した金額の範囲外の場合、出品ができない' do
-        @item.price = '100'
+      it 'priceが全角文字だと、出品ができない' do
+        @item.price = 'あああ'
         @item.valid?
-        expect(@item.errors.full_messages).to include('Price 範囲内の金額を入力してください')
+        expect(@item.errors.full_messages).to include("Price 半角数字のみで入力してください")
+      end
+      it 'priceが半角英数混合だと、出品ができない' do
+        @item.price = 'aaa111'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price 半角数字のみで入力してください")
+      end
+      it 'priceが半角英語だけだと、出品ができない' do
+        @item.price = "aaaaa"
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price 半角数字のみで入力してください")
+      end
+      it 'priceが指定した金額の範囲より低い場合、出品ができない' do
+        @item.price = 100
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price 範囲内の金額を入力してください")
+      end
+      it 'priceが指定した金額の範囲より高い場合、出品ができない' do
+        @item.price = 10000000
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price 範囲内の金額を入力してください")
       end
     end
   end

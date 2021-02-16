@@ -11,14 +11,7 @@ RSpec.describe Item, type: :model do
       it 'name,explanation,image,category_id,state_id,delivery_fee_id,delivery_source_area_id,days_to_delivery_id,priceが存在すれば出品ができる' do
         expect(@item).to be_valid
       end
-      it 'priceが半角数字であれば出品ができる' do
-        @item.price = 11111
-        expect(@item).to be_valid
-      end
-      it 'priceが指定した金額の範囲内なら出品ができる' do
-        @item.price = 300
-        expect(@item).to be_valid
-      end
+      
     end
     context '商品の出品がうまくいかない時' do
       it 'nameが空の場合、出品ができない' do

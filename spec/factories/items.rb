@@ -9,6 +9,5 @@ FactoryBot.define do
     delivery_source_area_id { 2 }
     days_to_delivery_id     { 2 }
     price                   { 500 }
-
   end
 end

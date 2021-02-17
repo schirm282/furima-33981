@@ -10,8 +10,7 @@ RSpec.describe Item, type: :model do
     context '商品の出品がうまくいく時' do
       it 'name,explanation,image,category_id,state_id,delivery_fee_id,delivery_source_area_id,days_to_delivery_id,priceが存在すれば出品ができる' do
         expect(@item).to be_valid
-      end
-      
+      end 
     end
     context '商品の出品がうまくいかない時' do
       it 'nameが空の場合、出品ができない' do

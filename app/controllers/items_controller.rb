@@ -35,6 +35,10 @@ class ItemsController < ApplicationController
     end
   end
 
+  def destoroy
+    
+  end
+
   private
 
   def move_to_index

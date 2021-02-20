@@ -32,7 +32,7 @@ class Save
 
   def save
     user = User.create(last_name: last_name, first_name: first_name, last_frigana: last_frigana, first_frigana: first_frigana, nickname: nickname)
-    Address.create(postal_code: postal_code, delivery_source_area_id: delivery_source_area_id, municipality: municipality, building: building, house_number: house_number, phone_number: phone_number, user_id: user_id)
+    Address.create(postal_code: postal_code, delivery_source_area_id: delivery_source_area_id, municipality: municipality, house_number: house_number, building: building, phone_number: phone_number, user_id: user_id)
     Item.create(name: name, image: image, delivery_fee_id: delivery_fee_id, price: price, user_id: user_id)
   end
 end

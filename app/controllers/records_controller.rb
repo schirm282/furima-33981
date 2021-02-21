@@ -1,10 +1,11 @@
 class RecordsController < ApplicationController
 
   def index
-    @save = Save.new
+    @save = RecordAddress.new
+    @item = Item.find(params[:item_id])
   end
 
   def create
-    binding.pry
+    
   end
 end

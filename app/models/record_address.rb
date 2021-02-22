@@ -1,6 +1,6 @@
 class RecordAddress
   include ActiveModel::Model
-  attr_accessor :postal_code, :delivery_source_area_id, :municipality, :house_number, :building, :phone_number, :item_id, :user_id
+  attr_accessor :postal_code, :delivery_source_area_id, :municipality, :house_number, :building, :phone_number, :record_id, :item_id, :user_id
 
   with_options presence: true do
     validates :postal_code, format: {with: /\A[0-9]{3}-[0-9]{4}\z/, message: "ハイフン(−)を入力してください"}
@@ -15,7 +15,7 @@ class RecordAddress
   end
 
   def save
-    record = Record.create(item_id: item_id, user_id: user_id)
-    Address.create(postal_code: postal_code, delivery_source_area_id: delivery_source_area_id, municipality: municipality, house_number: house_number, building: building, phone_number: phone_number, record_id: record_id)
+    record = Record.create!(item_id: item_id, user_id: user_id)
+    Address.create!(postal_code: postal_code, delivery_source_area_id: delivery_source_area_id, municipality: municipality, house_number: house_number, building: building, phone_number: phone_number, record_id: record.id)
   end
 end

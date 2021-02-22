@@ -9,5 +9,6 @@ class Address < ApplicationRecord
     validates :municipality,  format: { with: /\A[ぁ-んァ-ン一-龥]/, message: "市区町村を入力してください"}
     validates :house_number
     validates :phone_number, format: {with: /\A\d{10}\z|\A\d{11}\z/ , message: "電話番号を入力してください"}
+    validates :record_id
   end
 end

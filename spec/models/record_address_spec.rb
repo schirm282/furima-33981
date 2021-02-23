@@ -7,7 +7,7 @@ RSpec.describe RecordAddress, type: :model do
 
  describe '商品購入機能' do
    context '商品購入がうまくいく時' do
-     it "postal_code,delivery_source_area_id,municipality,house_number,phone_number,record_id,item_id,user_idが存在すれば購入できる" do
+     it "postal_code,delivery_source_area_id,municipality,house_number,phone_number,token,record_id,item_id,user_idが存在すれば購入できる" do
        expect(@record_address).to be_valid
      end
    end
@@ -56,6 +56,11 @@ RSpec.describe RecordAddress, type: :model do
        @record_address.user_id = ""
        @record_address.valid?
        expect(@record_address.errors.full_messages).to include("User can't be blank")
+     end
+     it "tokenが空の時、購入できない" do
+       @record_address.token = ""
+       @record_address.valid?
+       expect(@record_address.errors.full_messages).to include("Token can't be blank")
      end
    end
  end

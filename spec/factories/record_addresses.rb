@@ -5,6 +5,7 @@ FactoryBot.define do
     municipality            { "足立区西新井本町" }
     house_number            { "123" }
     phone_number            { "12345678901" }
+    token                   {"tok_abcdefghijk00000000000000000"}
     record_id               { 1 }
     item_id                 { 1 }
     user_id                 { 1 }

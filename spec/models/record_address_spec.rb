@@ -2,12 +2,14 @@ require 'rails_helper'
 
 RSpec.describe RecordAddress, type: :model do
  before do
-   @record_address = FactoryBot.build(:record_address)
+   user = FactoryBot.create(:user)
+   item = FactoryBot.create(:item)
+   @record_address = FactoryBot.build(:record_address, user_id: user.id, item_id: item.id)
  end
 
  describe '商品購入機能' do
    context '商品購入がうまくいく時' do
-     it "postal_code,delivery_source_area_id,municipality,house_number,phone_number,token,record_id,item_id,user_idが存在すれば購入できる" do
+     it "postal_code,delivery_source_area_id,municipality,house_number,phone_number,token,item_id,user_idが存在すれば購入できる" do
        expect(@record_address).to be_valid
      end
      it "buildingが空でも、購入できる" do
@@ -22,7 +24,7 @@ RSpec.describe RecordAddress, type: :model do
        expect(@record_address.errors.full_messages).to include("Postal code can't be blank")
      end
      it "postal_codeがハイフン(-)を含まない時、購入できない" do
-       @record_address.postal_code = 0000000
+       @record_address.postal_code = '0000000'
        @record_address.valid?
        expect(@record_address.errors.full_messages).to include("Postal code ハイフン(−)を入力してください")
      end

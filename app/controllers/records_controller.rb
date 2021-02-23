@@ -5,11 +5,9 @@ class RecordsController < ApplicationController
 
   def index
     @record_address = RecordAddress.new
-    finding_item
   end
 
   def create
-    finding_item
     @record_address = RecordAddress.new(record_params)
     if @record_address.valid?
       pay_item
@@ -35,14 +33,13 @@ class RecordsController < ApplicationController
     )
   end
 
-  def move_to_index
+  def finding_item
     @item = Item.find(params[:item_id])
+  end
+
+  def move_to_index
     if @item.record != nil || @item.user_id == current_user.id
       redirect_to root_path
     end
-  end
-
-  def finding_item
-    @item = Item.find(params[:item_id])
   end
 end

@@ -1,6 +1,6 @@
 class RecordAddress
   include ActiveModel::Model
-  attr_accessor :postal_code, :delivery_source_area_id, :municipality, :house_number, :building, :phone_number, :record_id, :item_id, :user_id, :token
+  attr_accessor :postal_code, :delivery_source_area_id, :municipality, :house_number, :building, :phone_number, :item_id, :user_id, :token
 
   with_options presence: true do
     validates :postal_code, format: {with: /\A[0-9]{3}-[0-9]{4}\z/, message: "ハイフン(−)を入力してください"}
@@ -8,8 +8,6 @@ class RecordAddress
     validates :municipality, format: { with: /\A[ぁ-んァ-ン一-龥]/, message: "市区町村を入力してください"}
     validates :house_number
     validates :phone_number, format: {with: /\A\d{10}\z|\A\d{11}\z/ , message: "電話番号を入力してください"}
-  end
-  with_options presence: true do
     validates :item_id
     validates :user_id
     validates :token

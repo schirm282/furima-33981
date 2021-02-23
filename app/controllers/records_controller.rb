@@ -1,5 +1,6 @@
 class RecordsController < ApplicationController
   before_action :authenticate_user!, only: [:index, :create]
+  before_action :move_to_index, only: :index
 
   def index
     @record_address = RecordAddress.new
@@ -31,5 +32,12 @@ class RecordsController < ApplicationController
       card: record_params[:token],
       currency: 'jpy'
     )
+  end
+
+  def move_to_index
+    @item = Item.find(params[:item_id])
+    unless @item.record == nil
+      redirect_to root_path
+    end
   end
 end

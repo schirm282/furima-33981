@@ -10,6 +10,10 @@ RSpec.describe RecordAddress, type: :model do
      it "postal_code,delivery_source_area_id,municipality,house_number,phone_number,token,record_id,item_id,user_idが存在すれば購入できる" do
        expect(@record_address).to be_valid
      end
+     it "buildingが空でも、購入できる" do
+       @record_address.building = ""
+       expect(@record_address).to be_valid
+     end
    end
    context '商品購入がうまくいかない時' do
      it "postal_codeが空の時、購入できない" do
@@ -46,6 +50,21 @@ RSpec.describe RecordAddress, type: :model do
        @record_address.house_number = ""
        @record_address.valid?
        expect(@record_address.errors.full_messages).to include("House number can't be blank")
+     end
+     it "phone_numberが空の時、購入できない" do
+       @record_address.phone_number = ""
+       @record_address.valid?
+       expect(@record_address.errors.full_messages).to include("Phone number can't be blank")
+     end
+     it "phone_numberが12桁以上の時、購入できない" do
+       @record_address.phone_number = "0123456789012"
+       @record_address.valid?
+       expect(@record_address.errors.full_messages).to include("Phone number 電話番号を入力してください")
+     end
+     it "phone_numberは英数混合では、購入できない" do
+       @record_address.phone_number = "0123456789ab"
+       @record_address.valid?
+       expect(@record_address.errors.full_messages).to include("Phone number 電話番号を入力してください")
      end
      it "item_idが空の時、購入できない" do
        @record_address.item_id = ""

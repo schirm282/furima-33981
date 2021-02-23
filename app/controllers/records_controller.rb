@@ -1,14 +1,15 @@
 class RecordsController < ApplicationController
   before_action :authenticate_user!, only: [:index, :create]
-  before_action :move_to_index, only: :index
+  before_action :move_to_index, only: [:index, :create]
+  before_action :finding_item, only: [:index, :create]
 
   def index
     @record_address = RecordAddress.new
-    @item = Item.find(params[:item_id])
+    finding_item
   end
 
   def create
-    @item = Item.find(params[:item_id])
+    finding_item
     @record_address = RecordAddress.new(record_params)
     if @record_address.valid?
       pay_item
@@ -36,8 +37,12 @@ class RecordsController < ApplicationController
 
   def move_to_index
     @item = Item.find(params[:item_id])
-    unless @item.record == nil
+    if @item.record != nil || @item.user_id == current_user.id
       redirect_to root_path
     end
+  end
+
+  def finding_item
+    @item = Item.find(params[:item_id])
   end
 end
